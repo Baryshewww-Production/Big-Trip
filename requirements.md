@@ -13,8 +13,6 @@ npm i eslint@8.28.0 -DE
 - dayjs@1.11.6
 - flatpickr@4.6.13
 - he@1.2.0
-- chart.js@2.9.4
-- chartjs-plugin-datalabels@0.7.0
 
 ## Зависимости для разработки (`devDependencies`)
 
