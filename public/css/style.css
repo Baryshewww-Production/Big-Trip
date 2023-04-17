@@ -224,12 +224,11 @@ main {
   opacity: 0.8; }
 
 .trip-info__cost {
-  width: 170px;
   margin: 0 0 0 auto;
   font-weight: 700;
   font-size: 21px;
   line-height: 25px;
-  text-align: center; }
+}
 
 .trip-controls__trip-tabs {
   margin-bottom: 9px; }
@@ -611,7 +610,7 @@ main {
   top: calc(100% + 7px);
   left: -20px;
   display: none;
-  width: 180px;
+  width: 315px;
   background-color: #ffffff;
   border: 1px solid rgba(151, 151, 151, 0.169724);
   -webkit-box-shadow: 0 11px 20px rgba(0, 0, 0, 0.219146);
@@ -943,7 +942,7 @@ main {
   background-color: #0d8ae4; }
 
 .event__destination-description {
-  width: 560px;
+  width: 900px;
   margin: 0;
   margin-bottom: 16px;
   margin-left: 20px;
