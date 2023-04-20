@@ -3,6 +3,8 @@ import {destinationMock} from './destination-mock.js';
 import {offersMock} from './offers-mock.js';
 import {OFFER_TYPE} from '../const.js';
 
+const offerArrayType = Object.entries(OFFER_TYPE);
+
 const pointsMock = [
   {
     basePrice: getRandomPositiveInteger(120, 950),
@@ -12,7 +14,7 @@ const pointsMock = [
     id: getRandomPositiveInteger(0,10),
     isFavorite: Boolean(getRandomPositiveInteger(0, 1)),
     offers: getRandomArrayElement(offersMock),
-    type: getRandomArrayElement(OFFER_TYPE),
+    type: getRandomArrayElement(offerArrayType),
   },
   {
     basePrice: getRandomPositiveInteger(205, 800),
@@ -22,7 +24,7 @@ const pointsMock = [
     id: getRandomPositiveInteger(0,10),
     isFavorite: Boolean(getRandomPositiveInteger(0, 1)),
     offers: getRandomArrayElement(offersMock),
-    type: getRandomArrayElement(OFFER_TYPE),
+    type: getRandomArrayElement(offerArrayType),
   },
   {
     basePrice: getRandomPositiveInteger(347, 650),
@@ -32,7 +34,7 @@ const pointsMock = [
     id: getRandomPositiveInteger(0,10),
     isFavorite: Boolean(getRandomPositiveInteger(0, 1)),
     offers: getRandomArrayElement(offersMock),
-    type: getRandomArrayElement(OFFER_TYPE),
+    type: getRandomArrayElement(offerArrayType),
   },
   {
     basePrice: getRandomPositiveInteger(360, 450),
@@ -42,7 +44,7 @@ const pointsMock = [
     id: getRandomPositiveInteger(0,10),
     isFavorite: Boolean(getRandomPositiveInteger(0, 1)),
     offers: getRandomArrayElement(offersMock),
-    type: getRandomArrayElement(OFFER_TYPE),
+    type: getRandomArrayElement(offerArrayType),
   },
 ];
 

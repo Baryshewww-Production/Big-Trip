@@ -26,7 +26,7 @@ export default class ContentPresenter {
 
     render(new SortingView(), this.tripEventsContainer);
     render(this.tripEventsListComponent, this.tripEventsContainer);
-    render(new CreationFormView(), this.tripEventsListComponent.getElement());
+    render(new CreationFormView({}), this.tripEventsListComponent.getElement());
 
     for (let i = 0; i < this.points.length; i++) {
       render(new WaypointView({point: this.points[i]}), this.tripEventsListComponent.getElement());
