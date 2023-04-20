@@ -11,22 +11,25 @@ export default class ContentPresenter {
   tripEventsListComponent = new TripEventsListView();
   routeWrapperComponent = new RouteWrapperView();
 
-  constructor({tripEventsContainer, routeContainer}) {
+  constructor({tripEventsContainer, routeContainer, pointsModel}) {
     this.tripEventsContainer = tripEventsContainer;
     this.routeContainer = routeContainer;
+    this.pointsModel = pointsModel;
   }
 
   init() {
+    this.points = [...this.pointsModel.getPoints()];
+
     render(this.routeWrapperComponent, this.routeContainer, RenderPosition.AFTERBEGIN);
     render(new RouteInfoView(), this.routeWrapperComponent.getElement());
     render(new RouteCostView(), this.routeWrapperComponent.getElement());
 
     render(new SortingView(), this.tripEventsContainer);
     render(this.tripEventsListComponent, this.tripEventsContainer);
-    render(new CreationFormView(), this.tripEventsListComponent.getElement());
+    render(new CreationFormView({}), this.tripEventsListComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
-      render(new WaypointView(), this.tripEventsListComponent.getElement());
+    for (let i = 0; i < this.points.length; i++) {
+      render(new WaypointView({point: this.points[i]}), this.tripEventsListComponent.getElement());
     }
   }
 }
