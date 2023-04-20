@@ -1,14 +1,14 @@
 const OFFER_TYPE = [
-  'taxi',
-  'bus',
-  'train',
-  'ship',
-  'transport',
-  'drive',
-  'flight',
-  'check-in',
-  'sightseeing',
-  'restaurant'
+  'Такси',
+  'Автобус',
+  'Поезд',
+  'Корабль',
+  'Метро',
+  'Автомобиль',
+  'Самолёт',
+  'Регистрация',
+  'Достопримечательности',
+  'Ресторан'
 ];
 
 const CITIES = [

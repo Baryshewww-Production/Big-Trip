@@ -19,7 +19,6 @@ export default class ContentPresenter {
 
   init() {
     this.points = [...this.pointsModel.getPoints()];
-    console.log(this.points);
 
     render(this.routeWrapperComponent, this.routeContainer, RenderPosition.AFTERBEGIN);
     render(new RouteInfoView(), this.routeWrapperComponent.getElement());
