@@ -3,7 +3,7 @@ import RouteWrapperView from '../view/route-wrapper-view.js';
 import RouteInfoView from '../view/route-info-view.js';
 import RouteCostView from '../view/route-cost-view.js';
 import SortingView from '../view/sorting-view.js';
-import CreationFormView from '../view/creation-form-view.js';
+// import CreationFormView from '../view/creation-form-view.js';
 import WaypointView from '../view/waypoint-view.js';
 import {RenderPosition, render} from '../render.js';
 
@@ -23,6 +23,11 @@ export default class ContentPresenter {
     this.#pointsModel = pointsModel;
   }
 
+  #renderWaypoint(point) {
+    const waypointComponent = new WaypointView({point});
+    render(waypointComponent, this.#tripEventsListComponent.element);
+  }
+
   init() {
     this.#points = [...this.#pointsModel.points];
 
@@ -32,10 +37,9 @@ export default class ContentPresenter {
 
     render(new SortingView(), this.#tripEventsContainer);
     render(this.#tripEventsListComponent, this.#tripEventsContainer);
-    render(new CreationFormView({}), this.#tripEventsListComponent.element);
 
     for (let i = 0; i < this.#points.length; i++) {
-      render(new WaypointView({point: this.#points[i]}), this.#tripEventsListComponent.element);
+      this.#renderWaypoint(this.#points[i]);
     }
   }
 }
