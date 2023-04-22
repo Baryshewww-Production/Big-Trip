@@ -35,13 +35,23 @@ export default class ContentPresenter {
       this.#tripEventsListComponent.element.replaceChild(waypointComponent.element, waypointEditComponent.element);
     };
 
+    const escKeyDownHandler = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+
     waypointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
       replacePointToForm();
+      document.addEventListener('keydown', escKeyDownHandler);
     });
 
     waypointEditComponent.element.addEventListener('submit', (event) => {
       event.preventDefault();
       replaceFormToPoint();
+      document.removeEventListener('keydown', escKeyDownHandler);
     });
 
     render(waypointComponent, this.#tripEventsListComponent.element);
