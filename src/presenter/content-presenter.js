@@ -3,8 +3,9 @@ import RouteWrapperView from '../view/route-wrapper-view.js';
 import RouteInfoView from '../view/route-info-view.js';
 import RouteCostView from '../view/route-cost-view.js';
 import SortingView from '../view/sorting-view.js';
-import CreationFormView from '../view/creation-form-view.js';
+import EditFormView from '../view/edit-form-view.js';
 import WaypointView from '../view/waypoint-view.js';
+import NoPointsView from '../view/no-points-view.js';
 import {RenderPosition, render} from '../render.js';
 
 export default class ContentPresenter {
@@ -25,7 +26,7 @@ export default class ContentPresenter {
 
   #renderWaypoint(point) {
     const waypointComponent = new WaypointView({point});
-    const waypointEditComponent = new CreationFormView({point});
+    const waypointEditComponent = new EditFormView({point});
 
     const replacePointToForm = () => {
       this.#tripEventsListComponent.element.replaceChild(waypointEditComponent.element, waypointComponent.element);
@@ -54,15 +55,23 @@ export default class ContentPresenter {
       document.removeEventListener('keydown', escKeyDownHandler);
     });
 
+    waypointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replaceFormToPoint();
+      document.removeEventListener('keydown', escKeyDownHandler);
+    });
+
     render(waypointComponent, this.#tripEventsListComponent.element);
   }
 
-  init() {
-    this.#points = [...this.#pointsModel.points];
-
+  #renderEventList() {
     render(this.#routeWrapperComponent, this.#routeContainer, RenderPosition.AFTERBEGIN);
     render(new RouteInfoView(), this.#routeWrapperComponent.element);
     render(new RouteCostView(), this.#routeWrapperComponent.element);
+
+    if (this.#points.length <= 0) {
+      render(new NoPointsView(), this.#tripEventsContainer);
+      return;
+    }
 
     render(new SortingView(), this.#tripEventsContainer);
     render(this.#tripEventsListComponent, this.#tripEventsContainer);
@@ -70,5 +79,10 @@ export default class ContentPresenter {
     for (let i = 0; i < this.#points.length; i++) {
       this.#renderWaypoint(this.#points[i]);
     }
+  }
+
+  init() {
+    this.#points = [...this.#pointsModel.points];
+    this.#renderEventList();
   }
 }

@@ -1,11 +1,11 @@
 import {createElement} from '../render.js';
-import {humanizePointDueDate, humanizePointDueTime, differentDate} from '../utils.js';
+import {humanizeDate, DATE_FORMAT, TIME_FORMAT, differentDate} from '../utils.js';
 
 function createWaypointTemplate(point) {
   const {basePrice, dateFrom, dateTo, destination, isFavorite, type} = point;
-  const dateFormFormatted = humanizePointDueDate(dateFrom);
-  const timeFrom = humanizePointDueTime(dateFrom);
-  const timeTo = humanizePointDueTime(dateTo);
+  const dateFormFormatted = humanizeDate(dateFrom, DATE_FORMAT);
+  const timeFrom = humanizeDate(dateFrom, TIME_FORMAT);
+  const timeTo = humanizeDate(dateTo, TIME_FORMAT);
   const favorite = () => isFavorite ? 'event__favorite-btn--active' : '';
 
   return (`<li class="trip-events__item">
