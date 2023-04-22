@@ -8,28 +8,34 @@ import WaypointView from '../view/waypoint-view.js';
 import {RenderPosition, render} from '../render.js';
 
 export default class ContentPresenter {
-  tripEventsListComponent = new TripEventsListView();
-  routeWrapperComponent = new RouteWrapperView();
+  #tripEventsContainer = null;
+  #routeContainer = null;
+  #pointsModel = null;
+
+  #tripEventsListComponent = new TripEventsListView();
+  #routeWrapperComponent = new RouteWrapperView();
+
+  #points = [];
 
   constructor({tripEventsContainer, routeContainer, pointsModel}) {
-    this.tripEventsContainer = tripEventsContainer;
-    this.routeContainer = routeContainer;
-    this.pointsModel = pointsModel;
+    this.#tripEventsContainer = tripEventsContainer;
+    this.#routeContainer = routeContainer;
+    this.#pointsModel = pointsModel;
   }
 
   init() {
-    this.points = [...this.pointsModel.getPoints()];
+    this.#points = [...this.#pointsModel.points];
 
-    render(this.routeWrapperComponent, this.routeContainer, RenderPosition.AFTERBEGIN);
-    render(new RouteInfoView(), this.routeWrapperComponent.getElement());
-    render(new RouteCostView(), this.routeWrapperComponent.getElement());
+    render(this.#routeWrapperComponent, this.#routeContainer, RenderPosition.AFTERBEGIN);
+    render(new RouteInfoView(), this.#routeWrapperComponent.element);
+    render(new RouteCostView(), this.#routeWrapperComponent.element);
 
-    render(new SortingView(), this.tripEventsContainer);
-    render(this.tripEventsListComponent, this.tripEventsContainer);
-    render(new CreationFormView({}), this.tripEventsListComponent.getElement());
+    render(new SortingView(), this.#tripEventsContainer);
+    render(this.#tripEventsListComponent, this.#tripEventsContainer);
+    render(new CreationFormView({}), this.#tripEventsListComponent.element);
 
-    for (let i = 0; i < this.points.length; i++) {
-      render(new WaypointView({point: this.points[i]}), this.tripEventsListComponent.getElement());
+    for (let i = 0; i < this.#points.length; i++) {
+      render(new WaypointView({point: this.#points[i]}), this.#tripEventsListComponent.element);
     }
   }
 }

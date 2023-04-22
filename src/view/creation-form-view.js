@@ -6,13 +6,13 @@ import {
   humanizePointDueTime
 } from '../utils.js';
 import {OFFER_TYPE, CITIES} from '../const.js';
-import {destinationMock} from '../mock/destination-mock.js';
+import {pointsMock} from '../mock/points-mock.js';
 import {offersMock} from '../mock/offers-mock.js';
 
 const offerArrayType = Object.entries(OFFER_TYPE);
 const typeRandom = getRandomArrayElement(offerArrayType);
-const cityRandom = getRandomArrayElement(CITIES);
-const destinationRandom = getRandomArrayElement(destinationMock);
+const destinationRandom = getRandomArrayElement(pointsMock).destination;
+const cityRandom = destinationRandom.name;
 
 const BLANK_POINT = {
   basePrice: getRandomPositiveInteger(100, 110),
@@ -150,22 +150,25 @@ function createCreationFormTemplate(data) {
 }
 
 export default class CreationFormView {
+  #element = null;
+  #point = null;
+
   constructor({point = BLANK_POINT}) {
-    this.point = point;
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createCreationFormTemplate(this.point);
+  get template() {
+    return createCreationFormTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
