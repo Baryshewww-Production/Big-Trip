@@ -1,18 +1,15 @@
 import {createElement} from '../render.js';
-import {
-  getRandomArrayElement,
-  getRandomPositiveInteger,
-  humanizeEditPointDate,
-  humanizePointDueTime
-} from '../utils.js';
+import {getRandomArrayElement, getRandomPositiveInteger, humanizeEditPointDate, humanizePointDueTime, hasOffers} from '../utils.js';
 import {OFFER_TYPE, CITIES} from '../const.js';
 import {pointsMock} from '../mock/points-mock.js';
-import {offersMock} from '../mock/offers-mock.js';
+import {offerId} from '../mock/offers-mock.js';
 
 const offerArrayType = Object.entries(OFFER_TYPE);
+
 const typeRandom = getRandomArrayElement(offerArrayType);
 const destinationRandom = getRandomArrayElement(pointsMock).destination;
 const cityRandom = destinationRandom.name;
+const srcRandom = destinationRandom.pictures[0].src;
 
 const BLANK_POINT = {
   basePrice: getRandomPositiveInteger(100, 110),
@@ -21,8 +18,9 @@ const BLANK_POINT = {
   destination: destinationRandom,
   city: cityRandom,
   cities: CITIES,
+  src: srcRandom,
   id: '0',
-  offers: [...getRandomArrayElement(offersMock)],
+  offers: [...offerId[typeRandom[1]]],
   type: typeRandom,
 };
 
@@ -31,6 +29,7 @@ function createCreationFormTemplate(data) {
 
   const returnOfferTypes = (arrayOfferType) => {
     let fieldsets = '';
+
     arrayOfferType.forEach((offerType) => {
       fieldsets += `
       <div class="event__type-item">
@@ -38,24 +37,19 @@ function createCreationFormTemplate(data) {
          <label class="event__type-label  event__type-label--${offerType[0]}" for="event-type-${offerType[0]}-1">${offerType[1]}</label>
       </div>`;
     });
+
     return fieldsets;
   };
 
   const returnCityValues = (values) => {
     let citiesArray = '';
+
     values.forEach((cityValue) => {
       citiesArray += `<option value="${cityValue}"></option>`;
     });
+
     return citiesArray;
   };
-
-  // const isOfferCheck = (offer) => {
-  //   let result = '';
-  //   offers.forEach((item) => {
-  //     result = (item.title === offer.title) ? 'checked' : '';
-  //   });
-  //   return result;
-  // };
 
   const showOffers = () => {
     let offerArray = '';
@@ -63,8 +57,8 @@ function createCreationFormTemplate(data) {
     offers.forEach((item) => {
       offerArray += `
       <div class="event__offer-selector">
-         <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort">
-         <label class="event__offer-label" for="event-offer-comfort-1">
+         <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.name}-${item.id}" type="checkbox" name="event-offer-comfort">
+         <label class="event__offer-label" for="event-offer-${item.name}-${item.id}">
             <span class="event__offer-title">${item.title}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${item.price}</span>
@@ -73,6 +67,16 @@ function createCreationFormTemplate(data) {
     });
 
     return offerArray;
+  };
+
+  const returnImages = (array) => {
+    let imageContainer = '';
+
+    array.pictures.forEach((picture) => {
+      imageContainer += `<img class="event__photo" src="${picture.src}" alt="Event photo">`;
+    });
+
+    return imageContainer;
   };
 
   return (`<form class="event event--edit" action="#" method="post">
@@ -122,13 +126,13 @@ function createCreationFormTemplate(data) {
                   <button class="event__reset-btn" type="reset">Отмена</button>
                 </header>
                 <section class="event__details">
-                  <section class="event__section  event__section--offers">
-                    <h3 class="event__section-title  event__section-title--offers">Предложения</h3>
 
+                  ${hasOffers(offers) ? `<section class="event__section  event__section--offers">
+                    <h3 class="event__section-title  event__section-title--offers">Предложения</h3>
                     <div class="event__available-offers">
                      ${showOffers()}
                     </div>
-                  </section>
+                  </section>` : ''}
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Место назначения</h3>
@@ -136,11 +140,7 @@ function createCreationFormTemplate(data) {
 
                     <div class="event__photos-container">
                       <div class="event__photos-tape">
-                        <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-                        <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-                        <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-                        <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-                        <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+                        ${returnImages(destination)}
                       </div>
                     </div>
                   </section>

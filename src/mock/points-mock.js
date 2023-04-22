@@ -1,6 +1,6 @@
 import {getRandomArrayElement, getRandomPositiveInteger} from '../utils.js';
 import {createDestinationMock} from './destination-mock.js';
-import {offersMock} from './offers-mock.js';
+import {offerId} from './offers-mock.js';
 import {CITIES, OFFER_TYPE} from '../const.js';
 
 const offerArrayType = Object.entries(OFFER_TYPE);
@@ -16,8 +16,10 @@ function createPointMock(cities) {
     destination: createDestinationMock(city),
     id: getRandomPositiveInteger(0, 10),
     isFavorite: Boolean(getRandomPositiveInteger(0, 1)),
-    offers: getRandomArrayElement(offersMock),
+    offers: offerId[type[1]],
     type: type,
+    city: city,
+    cities: cities,
   };
 }
 

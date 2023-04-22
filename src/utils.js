@@ -47,11 +47,16 @@ function differentDate(from, to) {
   }
 }
 
+function hasOffers(offers) {
+  return offers.length > 0;
+}
+
 export {
   getRandomArrayElement,
   getRandomPositiveInteger,
   humanizePointDueDate,
   humanizePointDueTime,
   humanizeEditPointDate,
-  differentDate
+  differentDate,
+  hasOffers,
 };
