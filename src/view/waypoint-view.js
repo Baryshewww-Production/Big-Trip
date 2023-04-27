@@ -1,18 +1,18 @@
 import {createElement} from '../render.js';
-import {humanizePointDueDate, humanizePointDueTime, differentDate} from '../utils.js';
+import {humanizeDate, DATE_FORMAT, TIME_FORMAT, differentDate} from '../utils.js';
 
 function createWaypointTemplate(point) {
   const {basePrice, dateFrom, dateTo, destination, isFavorite, type} = point;
-  const dateFormFormatted = humanizePointDueDate(dateFrom);
-  const timeFrom = humanizePointDueTime(dateFrom);
-  const timeTo = humanizePointDueTime(dateTo);
+  const dateFormFormatted = humanizeDate(dateFrom, DATE_FORMAT);
+  const timeFrom = humanizeDate(dateFrom, TIME_FORMAT);
+  const timeTo = humanizeDate(dateTo, TIME_FORMAT);
   const favorite = () => isFavorite ? 'event__favorite-btn--active' : '';
 
   return (`<li class="trip-events__item">
               <div class="event">
                 <time class="event__date" datetime="${dateFrom}">${dateFormFormatted}</time>
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src="img/icons/sightseeing.png" alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src="img/icons/${type[0]}.png" alt="Event type icon">
                 </div>
                 <h3 class="event__title">${type[1]} ${destination.name}</h3>
                 <div class="event__schedule">
@@ -41,22 +41,25 @@ function createWaypointTemplate(point) {
 }
 
 export default class WaypointView {
+  #element = null;
+  #point = null;
+
   constructor ({point}) {
-    this.point = point;
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createWaypointTemplate(this.point);
+  get template() {
+    return createWaypointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

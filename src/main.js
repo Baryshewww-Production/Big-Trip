@@ -8,11 +8,14 @@ const siteHeaderFilterElement = document.querySelector('.trip-controls__filters'
 const siteHeaderMenuElement = document.querySelector('.trip-controls__navigation');
 const siteTripEventsElement = document.querySelector('.trip-events');
 const siteRouteWrapperElement = document.querySelector('.trip-main');
+const newEventButtonElement = siteRouteWrapperElement.querySelector('.trip-main__event-add-btn');
+
 const pointsModel = new PointsModel();
 const contentPresenter = new ContentPresenter({
   tripEventsContainer: siteTripEventsElement,
   routeContainer: siteRouteWrapperElement,
   pointsModel,
+  newEventButton: newEventButtonElement,
 });
 
 render(new MenuNavView(), siteHeaderMenuElement);
