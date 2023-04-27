@@ -12,16 +12,28 @@ export default class ContentPresenter {
   #tripEventsContainer = null;
   #routeContainer = null;
   #pointsModel = null;
+  #newEventButton = null;
 
   #tripEventsListComponent = new TripEventsListView();
   #routeWrapperComponent = new RouteWrapperView();
 
   #points = [];
 
-  constructor({tripEventsContainer, routeContainer, pointsModel}) {
+  constructor({tripEventsContainer, routeContainer, pointsModel, newEventButton}) {
     this.#tripEventsContainer = tripEventsContainer;
     this.#routeContainer = routeContainer;
     this.#pointsModel = pointsModel;
+    this.#newEventButton = newEventButton;
+  }
+
+  #renderCreationNewPoint() {
+    const waypointNewComponent = new EditFormView({});
+
+    const createNewPoint = () => {
+      render(waypointNewComponent, this.#tripEventsListComponent.element, RenderPosition.AFTERBEGIN);
+    };
+
+    this.#newEventButton.addEventListener('click', createNewPoint);
   }
 
   #renderWaypoint(point) {
@@ -75,6 +87,8 @@ export default class ContentPresenter {
 
     render(new SortingView(), this.#tripEventsContainer);
     render(this.#tripEventsListComponent, this.#tripEventsContainer);
+
+    this.#renderCreationNewPoint();
 
     for (let i = 0; i < this.#points.length; i++) {
       this.#renderWaypoint(this.#points[i]);
